@@ -19,11 +19,12 @@ import android.provider.Settings
 import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.util.DisplayMetrics
+import android.util.Log
 import android.util.Xml
 import android.view.Surface
 import android.view.WindowManager
 import androidx.core.app.ActivityCompat
-import com.tsy.commonsdk.utils.DataUtil.Companion.isNullString
+import com.core.XUtil
 import org.json.JSONObject
 import java.io.*
 import java.net.NetworkInterface
@@ -97,7 +98,7 @@ object DeviceUtil {
             val phoneName = Build.MODEL
             //品牌 例如：samsung
             val manuFacturer = Build.MANUFACTURER
-            TLog.d("详细序列号", "$manuFacturer-$phoneName-$serialNumber")
+            Log.d("详细序列号", "$manuFacturer-$phoneName-$serialNumber")
             return "$manuFacturer-$phoneName-$serialNumber"
         }
 
@@ -231,6 +232,7 @@ object DeviceUtil {
      * @param context
      * @return
      */
+    @SuppressLint("MissingPermission")
     @JvmStatic
     fun getNetworkType(context: Context): Int {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -404,7 +406,7 @@ object DeviceUtil {
         }
 
     val appPackageName: String
-        get() = Util.application.packageName
+        get() = XUtil.getApp().packageName
 
     /**
      * 获取App版本名称
@@ -548,7 +550,7 @@ object DeviceUtil {
             val entry = ite.next() as Map.Entry<*, *>
             val key = entry.key!!
             val value = entry.value!!
-            TLog.d("MSG_AUTH_COMPLETE", "$key： $value")
+            Log.d("MSG_AUTH_COMPLETE", "$key： $value")
         }
     }
 
@@ -607,7 +609,7 @@ object DeviceUtil {
                 buf.append(String.format("%02X", b))
             }
             macAddress = buf.toString()
-            TLog.d("mac", "interfaceName=" + networkInterface.name + ", mac=" + macAddress)
+            Log.d("mac", "interfaceName=" + networkInterface.name + ", mac=" + macAddress)
             macAddress = macAddress.replace(":", "")
             return macAddress
         }
@@ -738,7 +740,7 @@ object DeviceUtil {
      */
     @JvmStatic
     fun callPhone(context: Context, phoneNumber: String) {
-        if (!isNullString(phoneNumber)) {
+        if (phoneNumber.isNotEmpty()) {
             val phoneNumber1 = phoneNumber.trim { it <= ' ' } // 删除字符串首部和尾部的空格
             // 调用系统的拨号服务实现电话拨打功能
             // 封装一个拨打电话的intent，并且将电话号码包装成一个Uri对象传入
@@ -759,9 +761,9 @@ object DeviceUtil {
      */
     @JvmStatic
     fun sendSms(context: Context, phoneNumber: String?, content: String?) {
-        val uri = Uri.parse("smsto:" + if (isNullString(phoneNumber)) "" else phoneNumber)
+        val uri = Uri.parse("smsto:" + if (phoneNumber.isNullOrEmpty()) "" else phoneNumber)
         val intent = Intent(Intent.ACTION_SENDTO, uri)
-        intent.putExtra("sms_body", if (isNullString(content)) "" else content)
+        intent.putExtra("sms_body", if (content.isNullOrEmpty()) "" else content)
         context.startActivity(intent)
     }
 
@@ -798,7 +800,7 @@ object DeviceUtil {
             // cursor.getString(cursor.getColumnIndex("contact_id"));//getColumnIndex
             // : 查询字段在cursor中索引值,一般都是用在查询字段比较多的时候
             // 判断contact_id是否为空
-            if (!isNullString(contact_id)) { //null   ""
+            if (contact_id.isNotEmpty()) { //null   ""
                 // 7.根据contact_id查询view_data表中的数据
                 // selection : 查询条件
                 // selectionArgs :查询条件的参数
@@ -839,7 +841,7 @@ object DeviceUtil {
      */
     @JvmStatic
     fun getContantNum(context: Activity) {
-        TLog.i("tips", "U should copy the following code.")
+        Log.i("tips", "U should copy the following code.")
         val intent = Intent()
         intent.action = "android.intent.action.PICK"
         intent.type = "vnd.android.cursor.dir/phone_v2"
