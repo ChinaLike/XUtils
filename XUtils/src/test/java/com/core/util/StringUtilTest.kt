@@ -11,14 +11,9 @@ import org.junit.Test
 class StringUtilTest {
 
     @Test
-    fun add(){
-        Assert.assertEquals(8,StringUtil.add(3,5))
-        Assert.assertEquals(7,StringUtil.add(3,4))
-    }
-
-    @Test
-    fun add1(){
-        Assert.assertEquals(2,StringUtil.add(1,1))
+    fun removeZero(){
+        Assert.assertEquals("8.1",StringUtil.removeZero("8.100"))
+        Assert.assertEquals("7",StringUtil.removeZero("7.0"))
     }
 
 }

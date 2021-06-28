@@ -1,5 +1,7 @@
 package com.core.util
 
+import java.math.BigDecimal
+
 /**
  * 字符串
  * @author like
@@ -7,8 +9,11 @@ package com.core.util
  */
 object StringUtil {
 
-    fun add(a: Int, b: Int): Int {
-        return a + b
+    /**
+     * 去掉末尾的0
+     */
+    fun removeZero(formatString: String): String {
+        return BigDecimal(formatString).stripTrailingZeros().toPlainString()
     }
 
 }
