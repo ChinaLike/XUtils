@@ -13,7 +13,10 @@ object StringUtil {
      * 去掉末尾的0
      */
     fun removeZero(formatString: String): String {
-        return BigDecimal(formatString).stripTrailingZeros().toPlainString()
+        if (formatString.isNotEmpty()) {
+            return BigDecimal(formatString).stripTrailingZeros().toPlainString()
+        }
+        return formatString
     }
 
 }

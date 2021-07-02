@@ -1,14 +1,12 @@
-package com.tsy.commonsdk.utils
+package com.core.util
 
 import android.annotation.SuppressLint
 import android.util.Log
-import com.core.util.ConstUtil
 import com.core.util.ConstUtil.DAY
 import com.core.util.ConstUtil.HOUR
 import com.core.util.ConstUtil.MIN
 import com.core.util.ConstUtil.MSEC
 import com.core.util.ConstUtil.SEC
-import com.core.util.Constants
 import com.core.util.DataUtil.stringToInt
 import java.text.ParseException
 import java.text.SimpleDateFormat

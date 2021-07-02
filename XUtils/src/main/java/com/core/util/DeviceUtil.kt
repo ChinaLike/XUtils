@@ -11,6 +11,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
+import android.graphics.Point
 import android.net.Uri
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -38,6 +39,8 @@ import java.util.*
  * @date 2016/1/24
  */
 object DeviceUtil {
+    var sRealSizes = arrayOfNulls<Point>(2)
+
     /**
      * 得到屏幕的高
      *
@@ -48,6 +51,30 @@ object DeviceUtil {
     fun getScreenHeight(context: Context): Int {
         val wm = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
         return wm.defaultDisplay.height
+    }
+
+    /**
+     * 获取屏幕真实的高度
+     */
+    @JvmStatic
+    fun getRealScreenHeight(context: Context): Int {
+        var orientation = context.resources?.configuration?.orientation
+        orientation = if (orientation == 1) 0 else 1
+        if (sRealSizes[orientation] == null) {
+            val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val display = windowManager.defaultDisplay
+            val point = Point()
+            display.getRealSize(point)
+            sRealSizes[orientation] = point
+        }
+        return sRealSizes[orientation]?.y ?: getRealScreenHeight(context)
+    }
+
+    /**
+     * 获取屏幕可使用高度
+     */
+    fun getUseScreenHeight(context: Context):Int{
+        return if (isAllScreenDevice(context)) getRealScreenHeight(context) else getScreenHeight(context)
     }
 
     /**
@@ -144,7 +171,11 @@ object DeviceUtil {
         val id: String
         //android.telephony.TelephonyManager
         val mTelephony = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             //请先获取读取手机设备权限
             return null
         }
@@ -152,7 +183,10 @@ object DeviceUtil {
             mTelephony.deviceId
         } else {
             //android.provider.Settings;
-            Settings.Secure.getString(context.applicationContext.contentResolver, Settings.Secure.ANDROID_ID)
+            Settings.Secure.getString(
+                context.applicationContext.contentResolver,
+                Settings.Secure.ANDROID_ID
+            )
         }
         return id
     }
@@ -166,7 +200,11 @@ object DeviceUtil {
     @JvmStatic
     fun getDeviceSoftwareVersion(context: Context): String? {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             //请先获取读取手机设备权限
             return null
         }
@@ -183,7 +221,17 @@ object DeviceUtil {
     @JvmStatic
     fun getLine1Number(context: Context): String? {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_SMS
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_NUMBERS
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             //请先获取读取手机设备权限
             return null
         }
@@ -297,7 +345,11 @@ object DeviceUtil {
     @JvmStatic
     fun getSimSerialNumber(context: Context): String? {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             //请先获取读取手机设备信息权限
             return null
         }
@@ -326,7 +378,11 @@ object DeviceUtil {
     @JvmStatic
     fun getSubscriberId(context: Context): String? {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             //请先获取读取手机设备信息权限
             return null
         }
@@ -342,8 +398,12 @@ object DeviceUtil {
     @JvmStatic
     fun getVoiceMailNumber(context: Context): String? {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-           //请先获取读取手机设备信息权限
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            //请先获取读取手机设备信息权限
             return null
         }
         return tm.voiceMailNumber
@@ -469,7 +529,11 @@ object DeviceUtil {
             }
         } else {
             val pm = context.packageManager
-            if (pm.checkPermission(permission, context.packageName) == PackageManager.PERMISSION_GRANTED) {
+            if (pm.checkPermission(
+                    permission,
+                    context.packageName
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 result = true
             }
         }
@@ -527,8 +591,10 @@ object DeviceUtil {
                 device_id = mac
             }
             if (TextUtils.isEmpty(device_id)) {
-                device_id = Settings.Secure.getString(context.contentResolver,
-                    Settings.Secure.ANDROID_ID)
+                device_id = Settings.Secure.getString(
+                    context.contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
             }
             json.put("device_id", device_id)
             return json.toString()
@@ -650,7 +716,11 @@ object DeviceUtil {
      */
     @JvmStatic
     fun getPhoneStatus(context: Context): String? {
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             //请先获取读取手机设备信息权限
             return null
         }
@@ -745,7 +815,11 @@ object DeviceUtil {
             // 调用系统的拨号服务实现电话拨打功能
             // 封装一个拨打电话的intent，并且将电话号码包装成一个Uri对象传入
             val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel:$phoneNumber1"))
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.CALL_PHONE
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
                 return
             }
             context.startActivity(intent) // 内部类
@@ -791,8 +865,10 @@ object DeviceUtil {
         val date_uri = Uri.parse("content://com.android.contacts/data")
         // 4.查询操作,先查询raw_contacts,查询contact_id
         // projection : 查询的字段
-        val cursor = resolver.query(raw_uri, arrayOf("contact_id"),
-            null, null, null)
+        val cursor = resolver.query(
+            raw_uri, arrayOf("contact_id"),
+            null, null, null
+        )
         // 5.解析cursor
         while (cursor!!.moveToNext()) {
             // 6.获取查询的数据
@@ -806,8 +882,12 @@ object DeviceUtil {
                 // selectionArgs :查询条件的参数
                 // sortOrder : 排序
                 // 空指针: 1.null.方法 2.参数为null
-                val c = resolver.query(date_uri, arrayOf("data1",
-                    "mimetype"), "raw_contact_id=?", arrayOf(contact_id), null)
+                val c = resolver.query(
+                    date_uri, arrayOf(
+                        "data1",
+                        "mimetype"
+                    ), "raw_contact_id=?", arrayOf(contact_id), null
+                )
                 val map = HashMap<String, String>()
                 // 8.解析c
                 while (c!!.moveToNext()) {
@@ -888,7 +968,8 @@ object DeviceUtil {
         // selection : 查询的条件
         // selectionArgs : 查询条件的参数
         // sortOrder : 排序
-        val cursor = resolver.query(uri, arrayOf("address", "date", "type", "body"), null, null, null)
+        val cursor =
+            resolver.query(uri, arrayOf("address", "date", "type", "body"), null, null, null)
         // 设置最大进度
         val count = cursor!!.count //获取短信的个数
         // 2.备份短信
@@ -1087,4 +1168,32 @@ object DeviceUtil {
     fun noScreenshots(activity: Activity) {
         activity.window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
     }
+
+    /**
+     * 获取是否是全面屏
+     */
+    fun isAllScreenDevice(context: Context): Boolean {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
+            return false
+        } else {
+            val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val display = windowManager.defaultDisplay
+            val point = Point()
+            display.getRealSize(point)
+            val width: Float
+            val height: Float
+            if (point.x < point.y) {
+                width = point.x.toFloat()
+                height = point.y.toFloat()
+            } else {
+                width = point.y.toFloat()
+                height = point.x.toFloat()
+            }
+            if (height / width >= 1.97f) {
+                return true
+            }
+            return false
+        }
+    }
+
 }
