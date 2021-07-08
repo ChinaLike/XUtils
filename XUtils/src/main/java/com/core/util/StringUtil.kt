@@ -1,5 +1,7 @@
 package com.core.util
 
+import android.graphics.Paint
+import android.text.TextUtils
 import java.math.BigDecimal
 
 /**
@@ -17,6 +19,20 @@ object StringUtil {
             return BigDecimal(formatString).stripTrailingZeros().toPlainString()
         }
         return formatString
+    }
+
+    /**
+     * 获取文本宽度
+     * @param [textSize] 文本大小，单位px
+     * @param [text] 文本
+     */
+    fun getTextWidth(textSize: Float, text: String?): Int {
+        if (TextUtils.isEmpty(text)) {
+            return 0
+        }
+        val paint = Paint()
+        paint.textSize = textSize
+        return paint.measureText(text).toInt()
     }
 
 }
