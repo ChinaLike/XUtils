@@ -10,14 +10,12 @@ import com.core.XUtil
  */
 object DensityUtil {
 
-    private val density = XUtil.getApp().resources.displayMetrics.density
-
     /**
      * 单位转换，dp转px
      * @param [dpValue] dp值
      */
     fun dp2px(dpValue: Float): Int {
-        return (dpValue * density + 0.5F).toInt()
+        return (dpValue * XUtil.getApp().resources.displayMetrics.density + 0.5F).toInt()
     }
 
     /**
@@ -34,7 +32,7 @@ object DensityUtil {
      * @param [pxValue] px值
      */
     fun px2dp(pxValue: Float): Int {
-        return (pxValue / density + 0.5F).toInt()
+        return (pxValue / XUtil.getApp().resources.displayMetrics.density + 0.5F).toInt()
     }
 
     /**
