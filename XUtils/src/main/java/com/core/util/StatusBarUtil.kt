@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Build
 import android.util.TypedValue
 import android.view.View
+import android.view.ViewGroup.MarginLayoutParams
 import android.view.Window
 import android.view.WindowManager
 import androidx.annotation.ColorInt
@@ -417,5 +418,55 @@ object StatusBarUtil {
         val resources: Resources = context.resources
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
         return resources.getDimensionPixelSize(resourceId)
+    }
+
+
+    /**
+     * 增加View的paddingTop,增加的值为状态栏高度
+     */
+    fun setPadding(context: Context, view: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            view.setPadding(
+                view.paddingLeft, view.paddingTop + getStatusBarHeight(context),
+                view.paddingRight, view.paddingBottom
+            )
+        }
+    }
+
+    /** 增加View的paddingTop,增加的值为状态栏高度 (智能判断，并设置高度) */
+    fun setPaddingSmart(context: Context, view: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val lp = view.layoutParams
+            if (lp != null && lp.height > 0) {
+                lp.height += getStatusBarHeight(context) //增高
+            }
+            view.setPadding(
+                view.paddingLeft, view.paddingTop + getStatusBarHeight(context),
+                view.paddingRight, view.paddingBottom
+            )
+        }
+    }
+
+    /** 增加View的高度以及paddingTop,增加的值为状态栏高度.一般是在沉浸式全屏给ToolBar用的  */
+    fun setHeightAndPadding(context: Context, view: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val lp = view.layoutParams
+            lp.height += getStatusBarHeight(context!!) //增高
+            view.setPadding(
+                view.paddingLeft, view.paddingTop + getStatusBarHeight(context),
+                view.paddingRight, view.paddingBottom
+            )
+        }
+    }
+
+    /** 增加View上边距（MarginTop）一般是给高度为 WARP_CONTENT 的小控件用的 */
+    fun setMargin(context: Context, view: View) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val lp = view.layoutParams
+            if (lp is MarginLayoutParams) {
+                lp.topMargin += getStatusBarHeight(context!!) //增高
+            }
+            view.layoutParams = lp
+        }
     }
 }
