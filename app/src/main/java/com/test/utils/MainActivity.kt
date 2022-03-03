@@ -28,11 +28,13 @@ class MainActivity : AppCompatActivity() {
             Log.d("ClipboardUtil2","${ClipboardUtil.getClipboard("Test")}")
             Log.d("ClipboardUtil3","${ClipboardUtil.getClipboard("Test1")}")
             Log.d("ClipboardUtil4","${ClipboardUtil.getClipboard("Test2")}")
+            Log.d("ClipboardUtil5","${ClipboardUtil.getClipboardWithoutLabel("Test")}")
 
             ClipboardUtil.clearClipboard()
-            Log.d("ClipboardUtil5","${ClipboardUtil.getClipboard("Test")}")
-            Log.d("ClipboardUtil6","${ClipboardUtil.getClipboard("Test1")}")
-            Log.d("ClipboardUtil7","${ClipboardUtil.getClipboard("Test2")}")
+            Log.d("ClipboardUtil6","${ClipboardUtil.getClipboard()}")
+            Log.d("ClipboardUtil7","${ClipboardUtil.getClipboard("Test")}")
+            Log.d("ClipboardUtil8","${ClipboardUtil.getClipboard("Test1")}")
+            Log.d("ClipboardUtil9","${ClipboardUtil.getClipboard("Test2")}")
 
         }
     }

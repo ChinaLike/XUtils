@@ -31,6 +31,23 @@ object ClipboardUtil {
     }
 
     /**
+     * 获取剪贴板内容
+     * @param [label] Label标签,通过这个值过滤不包含Label的数据
+     */
+    fun getClipboardWithoutLabel(label: String):String?{
+        val clipboardManager =
+            XUtil.getApp().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+        val clipboardLabel = clipboardManager?.primaryClipDescription?.label
+        if (clipboardLabel != label && clipboardManager?.hasPrimaryClip() == true){
+            if (clipboardManager.primaryClip!!.itemCount > 0) {
+                return clipboardManager.primaryClip!!.getItemAt(0).text?.toString()
+            }
+            return null
+        }
+        return null
+    }
+
+    /**
      * 复制数据到剪贴板
      * @param [text] 文本数据
      * @param [label] 自定义标签
