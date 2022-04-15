@@ -1,6 +1,7 @@
 package com.core.util
 
 import android.content.Context
+import android.content.res.Resources
 import com.core.XUtil
 
 /**
@@ -15,7 +16,7 @@ object DensityUtil {
      * @param [dpValue] dp值
      */
     fun dp2px(dpValue: Float): Int {
-        return (dpValue * XUtil.getApp().resources.displayMetrics.density + 0.5F).toInt()
+        return (dpValue * Resources.getSystem().displayMetrics.density + 0.5F).toInt()
     }
 
     /**
@@ -32,7 +33,7 @@ object DensityUtil {
      * @param [pxValue] px值
      */
     fun px2dp(pxValue: Float): Int {
-        return (pxValue / XUtil.getApp().resources.displayMetrics.density + 0.5F).toInt()
+        return (pxValue / Resources.getSystem().displayMetrics.density + 0.5F).toInt()
     }
 
     /**
@@ -40,7 +41,7 @@ object DensityUtil {
      * @param [context] 上下文
      * @param [pxValue] px值
      */
-    fun px2dp(context: Context,pxValue: Float): Int {
+    fun px2dp(context: Context, pxValue: Float): Int {
         return (pxValue / context.resources.displayMetrics.density + 0.5F).toInt()
     }
 
@@ -49,7 +50,7 @@ object DensityUtil {
      * @param [spValue] sp值
      */
     fun sp2px(spValue: Float): Int {
-        val fontScale = XUtil.getApp().resources.displayMetrics.scaledDensity
+        val fontScale = Resources.getSystem().displayMetrics.scaledDensity
         return (spValue * fontScale + 0.5F).toInt()
     }
 
@@ -58,7 +59,7 @@ object DensityUtil {
      * @param [context] 上下文
      * @param [spValue] sp值
      */
-    fun sp2px(context: Context,spValue: Float): Int {
+    fun sp2px(context: Context, spValue: Float): Int {
         val fontScale = context.resources.displayMetrics.scaledDensity
         return (spValue * fontScale + 0.5F).toInt()
     }
@@ -68,7 +69,7 @@ object DensityUtil {
      * @param [pxValue] sp值
      */
     fun px2sp(pxValue: Float): Int {
-        val fontScale = XUtil.getApp().resources.displayMetrics.scaledDensity
+        val fontScale = Resources.getSystem().displayMetrics.scaledDensity
         return (pxValue / fontScale + 0.5F).toInt()
     }
 
@@ -77,7 +78,7 @@ object DensityUtil {
      * @param [context] 上下文
      * @param [pxValue] sp值
      */
-    fun px2sp(context: Context,pxValue: Float): Int {
+    fun px2sp(context: Context, pxValue: Float): Int {
         val fontScale = context.resources.displayMetrics.scaledDensity
         return (pxValue / fontScale + 0.5F).toInt()
     }
@@ -113,3 +114,16 @@ object DensityUtil {
     }
 
 }
+
+
+/**
+ * 将dp值转化为px
+ */
+val Number.dp
+    get() = (this.toFloat() * Resources.getSystem().displayMetrics.density + 0.5).toInt()
+
+/**
+ * 将sp值转化为px
+ */
+val Number.sp
+    get() = (this.toFloat() * Resources.getSystem().displayMetrics.scaledDensity + 0.5).toInt()
