@@ -4,6 +4,8 @@ import android.graphics.Paint
 import android.text.TextUtils
 import java.math.BigDecimal
 import java.util.regex.Pattern
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.contract
 
 /**
  * 字符串操作
@@ -42,14 +44,18 @@ fun String?.getTextWidth(textSize: Float): Int {
 /**
  * 判断字符串是否为空
  */
-fun String?.isEmpty(): Boolean {
+inline fun String?.isEmpty(): Boolean {
     return TextUtils.isEmpty(this)
 }
 
 /**
  * 判断字符串是否不为空
  */
-fun String?.isNotEmpty(): Boolean {
+@OptIn(ExperimentalContracts::class)
+inline fun String?.isNotNullOrEmpty(): Boolean {
+    contract {
+        returns(true) implies (this@isNotNullOrEmpty != null)
+    }
     return !TextUtils.isEmpty(this)
 }
 

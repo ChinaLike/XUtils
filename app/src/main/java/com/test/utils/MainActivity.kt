@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.AppCompatTextView
 import com.core.util.ClipboardUtil
 import com.core.util.KeyboardUtil
+import com.core.util.isNotNullOrEmpty
 import com.core.util.setCorner
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +30,15 @@ class MainActivity : AppCompatActivity() {
                 40F
             )
         )
+
+        val data:String? = "111"
+//        val result = data.isNotNullOrEmpty()
+        if (data.isNotNullOrEmpty()){
+            Log.d("软键盘高度监听","result=${data.length}")
+        }else{
+
+        }
+
 
         //ClipboardUtil
         findViewById<AppCompatButton>(R.id.copy).setOnClickListener {
