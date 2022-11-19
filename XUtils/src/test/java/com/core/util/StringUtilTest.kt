@@ -12,15 +12,15 @@ class StringUtilTest {
 
     @Test
     fun removeZero(){
-        Assert.assertEquals("8.1",StringUtil.removeZero("8.100"))
-        Assert.assertEquals("7",StringUtil.removeZero("7.0"))
-        Assert.assertEquals(true,StringUtil.isInteger("7"))
-        Assert.assertEquals(true,StringUtil.isBoolean("false"))
-        Assert.assertEquals(true,StringUtil.isDecimalNumber("7.1"))
+        Assert.assertEquals("8.1","8.100".removeZero())
+        Assert.assertEquals("7","7.0".removeZero())
+        Assert.assertEquals(true,"7".isInteger())
+        Assert.assertEquals(true,"false".isBoolean())
+        Assert.assertEquals(true,"7.1".isDecimalNumber())
 
-        Assert.assertEquals(false,StringUtil.isInteger("7.0"))
-        Assert.assertEquals(false,StringUtil.isBoolean("12"))
-        Assert.assertEquals(false,StringUtil.isDecimalNumber("222"))
+        Assert.assertEquals(false,"7.0".isInteger())
+        Assert.assertEquals(false,"12".isBoolean())
+        Assert.assertEquals(false,"222".isDecimalNumber())
     }
 
 }

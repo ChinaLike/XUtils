@@ -6,80 +6,78 @@ import java.math.BigDecimal
 import java.util.regex.Pattern
 
 /**
- * 字符串
+ * 字符串操作
  * @author like
  * @date 6/21/21 5:02 PM
  */
-object StringUtil {
 
-    /**
-     * 去掉末尾的0
-     */
-    fun removeZero(formatString: String): String {
-        if (formatString.isNotEmpty()) {
-            return BigDecimal(formatString).stripTrailingZeros().toPlainString()
-        }
-        return formatString
-    }
-
-    /**
-     * 获取文本宽度
-     * @param [textSize] 文本大小，单位px
-     * @param [text] 文本
-     */
-    fun getTextWidth(textSize: Float, text: String?): Int {
-        if (TextUtils.isEmpty(text)) {
-            return 0
-        }
-        val paint = Paint()
-        paint.textSize = textSize
-        return paint.measureText(text).toInt()
-    }
-
-    fun isEmpty(str: String?): Boolean {
-        return if (str == null) {
-            true
-        } else {
-            str!!.isEmpty()
+/**
+ * 去掉末尾的0
+ */
+fun String?.removeZero(): String? {
+    return if (TextUtils.isEmpty(this)) {
+        this
+    } else {
+        try {
+            BigDecimal(this).stripTrailingZeros().toPlainString()
+        } catch (e: Exception) {
+            null
         }
     }
+}
 
-    /**
-     * 判断是否是整数
-     */
-    fun isInteger(str: String?): Boolean {
-        return if (isEmpty(str)) {
-            false
-        } else {
-            TextUtils.isDigitsOnly(str)
-        }
+/**
+ * 获取文本宽度
+ * @param [textSize] 文本大小，单位px
+ */
+fun String?.getTextWidth(textSize: Float): Int {
+    if (TextUtils.isEmpty(this)) {
+        return 0
     }
+    val paint = Paint()
+    paint.textSize = textSize
+    return paint.measureText(this).toInt()
+}
 
-    /**
-     * 判断是否是布尔类型
-     */
-    fun isBoolean(str: String?): Boolean {
-        return if (isEmpty(str)) {
-            false
-        } else {
-            str == "false" || str == "true"
+/**
+ * 判断字符串是否为空
+ */
+fun String?.isEmpty(): Boolean {
+    return TextUtils.isEmpty(this)
+}
+
+/**
+ * 判断字符串是否不为空
+ */
+fun String?.isNotEmpty(): Boolean {
+    return !TextUtils.isEmpty(this)
+}
+
+/**
+ * 判断是否是整数
+ */
+fun String?.isInteger(): Boolean {
+    return if (isEmpty()) false else TextUtils.isDigitsOnly(this)
+}
+
+/**
+ * 判断是否是布尔类型
+ */
+fun String?.isBoolean(): Boolean {
+    return if (isEmpty()) false else this == "false" || this == "true"
+}
+
+/**
+ * 判断是否是小数
+ */
+fun String?.isDecimalNumber(): Boolean {
+    return if (isEmpty()) {
+        false
+    } else {
+        //排除整数
+        if (isInteger()) {
+            return false
         }
+        Pattern.compile("[+-]?[0-9]+(\\.[0-9]+)?").matcher(this).matches()
     }
-
-    /**
-     * 判断是否是小数
-     */
-    fun isDecimalNumber(str: String?): Boolean {
-        return if (isEmpty(str)) {
-            false
-        } else {
-            //排除整数
-            if (isInteger(str)){
-                return false
-            }
-            val pattern = Pattern.compile("[+-]?[0-9]+(\\.[0-9]+)?")
-            pattern.matcher(str).matches()
-        }
-    }
-
 }

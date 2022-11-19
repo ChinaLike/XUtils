@@ -21,6 +21,9 @@
 
         <include layout="@layout/layout_clipboard_util"/>
 
+        <include layout="@layout/layout_keyboard_util"/>
+
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="KeyboardUtil"
+        android:textColor="@color/black" />
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入数据" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/requestFocus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="获取焦点" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dismissFocus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="失去焦点" />
+
+    </LinearLayout>
+
+</LinearLayout>
