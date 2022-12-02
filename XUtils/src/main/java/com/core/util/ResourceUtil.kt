@@ -1,6 +1,7 @@
 package com.core.util
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
@@ -19,8 +20,21 @@ object ResourceUtil {
      */
     @JvmOverloads
     @JvmStatic
-    fun getColor(@ColorRes resId: Int,context: Context = XUtil.getApp()): Int {
+    fun getColor(@ColorRes resId: Int, context: Context = XUtil.getApp()): Int {
         return ContextCompat.getColor(context, resId)
+    }
+
+    /**
+     * 获取颜色组
+     * @param [resId] 颜色资源文件
+     */
+    @JvmOverloads
+    @JvmStatic
+    fun getColorStateList(
+        @ColorRes resId: Int,
+        context: Context = XUtil.getApp()
+    ): ColorStateList? {
+        return ContextCompat.getColorStateList(context, resId)
     }
 
 
@@ -30,7 +44,7 @@ object ResourceUtil {
      */
     @JvmOverloads
     @JvmStatic
-    fun getString(@StringRes resID: Int,context: Context = XUtil.getApp()): String {
+    fun getString(@StringRes resID: Int, context: Context = XUtil.getApp()): String {
         return context.resources.getString(resID)
     }
 
@@ -41,7 +55,11 @@ object ResourceUtil {
      */
     @JvmOverloads
     @JvmStatic
-    fun getString(@StringRes resID: Int, strings: String?,context: Context = XUtil.getApp()): String {
+    fun getString(
+        @StringRes resID: Int,
+        strings: String?,
+        context: Context = XUtil.getApp()
+    ): String {
         return context.resources.getString(resID, strings)
     }
 
@@ -52,7 +70,7 @@ object ResourceUtil {
      */
     @JvmOverloads
     @JvmStatic
-    fun getString(@StringRes resID: Int, num: Int,context: Context = XUtil.getApp()): String {
+    fun getString(@StringRes resID: Int, num: Int, context: Context = XUtil.getApp()): String {
         return context.resources.getString(resID, num)
     }
 
@@ -63,7 +81,11 @@ object ResourceUtil {
      */
     @JvmOverloads
     @JvmStatic
-    fun getString(@StringRes resID: Int, vararg content: Any?,context: Context = XUtil.getApp()): String {
+    fun getString(
+        @StringRes resID: Int,
+        vararg content: Any?,
+        context: Context = XUtil.getApp()
+    ): String {
         return context.resources.getString(resID, *content)
     }
 
@@ -73,7 +95,13 @@ object ResourceUtil {
      */
     @JvmOverloads
     @JvmStatic
-    fun getString(@StringRes resID: Int, one: String?, two: String?, three: String?,context: Context = XUtil.getApp()): String {
+    fun getString(
+        @StringRes resID: Int,
+        one: String?,
+        two: String?,
+        three: String?,
+        context: Context = XUtil.getApp()
+    ): String {
         return context.resources.getString(resID, one, two, three)
     }
 
@@ -82,7 +110,7 @@ object ResourceUtil {
      */
     @JvmOverloads
     @JvmStatic
-    fun getStringArray(@ArrayRes resID: Int,context: Context = XUtil.getApp()): Array<String> {
+    fun getStringArray(@ArrayRes resID: Int, context: Context = XUtil.getApp()): Array<String> {
         return context.resources.getStringArray(resID)
     }
 
@@ -91,7 +119,7 @@ object ResourceUtil {
      */
     @JvmOverloads
     @JvmStatic
-    fun getDrawable(@DrawableRes resID: Int,context: Context = XUtil.getApp()): Drawable? {
+    fun getDrawable(@DrawableRes resID: Int, context: Context = XUtil.getApp()): Drawable? {
         return ContextCompat.getDrawable(context, resID)
     }
 
@@ -100,7 +128,7 @@ object ResourceUtil {
      */
     @JvmOverloads
     @JvmStatic
-    fun getDimension(@DimenRes resID: Int,context: Context = XUtil.getApp()): Int {
+    fun getDimension(@DimenRes resID: Int, context: Context = XUtil.getApp()): Int {
         return context.resources.getDimension(resID).toInt()
     }
 

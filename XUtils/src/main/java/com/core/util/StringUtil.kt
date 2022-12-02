@@ -42,13 +42,6 @@ fun String?.getTextWidth(textSize: Float): Int {
 }
 
 /**
- * 判断字符串是否为空
- */
-inline fun String?.isEmpty(): Boolean {
-    return TextUtils.isEmpty(this)
-}
-
-/**
  * 判断字符串是否不为空
  */
 @OptIn(ExperimentalContracts::class)
@@ -63,21 +56,21 @@ inline fun String?.isNotNullOrEmpty(): Boolean {
  * 判断是否是整数
  */
 fun String?.isInteger(): Boolean {
-    return if (isEmpty()) false else TextUtils.isDigitsOnly(this)
+    return if (isNullOrEmpty()) false else TextUtils.isDigitsOnly(this)
 }
 
 /**
  * 判断是否是布尔类型
  */
 fun String?.isBoolean(): Boolean {
-    return if (isEmpty()) false else this == "false" || this == "true"
+    return if (isNullOrEmpty()) false else this == "false" || this == "true"
 }
 
 /**
  * 判断是否是小数
  */
 fun String?.isDecimalNumber(): Boolean {
-    return if (isEmpty()) {
+    return if (isNullOrEmpty()) {
         false
     } else {
         //排除整数
